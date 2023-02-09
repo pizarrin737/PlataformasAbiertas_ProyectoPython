@@ -42,26 +42,7 @@ def ship_weapons():
         # de posición a la hora del disparo.
         proyectile.goto(ship.xcor(),
                         ship.ycor()+10)  # Regresa a la punta de la nave
-        y = proyectile.ycor()
-        avance = 0.05  # Velocidad del proyectil
-        proyectile.showturtle()  # Vuelve visible el proyectil (Ha disparado)
-        while y <= 250:  # Avanza hasta llegar arriba en la pantalla
-            proyectile.forward(avance)
-            window.update()
-            y = proyectile.ycor()
-            # NOTA: Recordar posición según lo que se desee
-            # 1-dentro del while: 1 disparo
-            # 2-fuera del while: multiples disparos
-            avaiable = False  # Evita otro disparo cuando ya hay uno activo
-        # Condición de disponibilidad del proyectil
-        # Se activa una vez llega arriba en la pantalla
-        if proyectile.ycor() >= 250:
-            # NOTA: El track del proyectil se traslado a la función
-            # ship_weapons() para corregir error de posición
-            proyectile.hideturtle()  # Vuelve a ocultar el proyectil
-            avaiable = True  # Vuelve a estar disponible
-            # Se lleva abajo en la pantalla para evitar coliciones indeseadas
-            proyectile.goto(0, -300)
+        avaiable = False
 
 
 def alien_move(alien):
@@ -156,6 +137,16 @@ if __name__ == "__main__":
         window.update()
 
         alien_move(alien)
+
+        if avaiable is False:
+            avance = 0.05  # Velocidad del proyectil
+            proyectile.showturtle()  # Vuelve visible el proyectil
+            proyectile.forward(avance)
+            if proyectile.ycor() >= 250:
+                # NOTA: El track del proyectil se traslado a la función
+                # ship_weapons() para corregir error de posición
+                proyectile.hideturtle()  # Vuelve a ocultar el proyectil
+                avaiable = True  # Vuelve a estar disponible
 
         # Situación de Game Over
         if alien.ycor() < ship.ycor():

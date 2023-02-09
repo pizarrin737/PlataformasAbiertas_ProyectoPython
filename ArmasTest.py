@@ -28,6 +28,13 @@ def ship_weapons():
             # 1-dentro del while: 1 disparo
             # 2-fuera del while: multiples disparos
             avaiable = False  # Evita otro disparo cuando ya hay uno activo
+        # Condición de disponibilidad del proyectil
+        # Se activa una vez llega arriba en la pantalla
+        if proyectile.ycor() >= 250:
+            # NOTA: El track del proyectil se traslado a la función
+            # ship_weapons() para corregir error de posición
+            proyectile.hideturtle()  # Vuelve a ocultar el proyectil
+            avaiable = True  # Vuelve a estar disponible
 
 
 if __name__ == "__main__":
@@ -63,17 +70,9 @@ if __name__ == "__main__":
 
     # Para que la ventana rastree los inputs del teclado
     window.listen()
+    window.onkeypress(ship_weapons, "space")
 
     # Asociacion del teclado con el movimiento de la nave
-    window.onkeypress(ship_weapons, "space")
 
     while True:
         window.update()
-
-        # Condición de disponibilidad del proyectil
-        # Se activa una vez llega arriba en la pantalla
-        if proyectile.ycor() >= 250:
-            # NOTA: El track del proyectil se traslado a la función
-            # ship_weapons() para corregir error de posición
-            proyectile.hideturtle()  # Vuelve a ocultar el proyectil
-            avaiable = True  # Vuelve a estar disponible
