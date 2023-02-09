@@ -3,28 +3,27 @@
 import turtle
 
 
-def ship_right():
-    """
-    Funcion para que la nave se mueva a la dereha.
-    Actualmente se activa con la flecha derecha.
-    """
-    x = ship.xcor()  # Coordenada x actual
-    if x >= 230:
-        ship.setx(230)  # Condicion para no salirse del borde derecho
-    else:
-        ship.setx(x + 10)  # Mueve la nave 10 pixeles a la derecha
-
-
-def ship_left():
+def ship_weapons():
     """
     Funcion para para que la nave se mueva a la izquierda.
     Actualmente se activa con la flecha izquierda.
     """
-    x = ship.xcor()  # Coordenada x actual
-    if x <= -230:
-        ship.setx(-230)  # Condicion para no salirse del borde izquierdo
-    else:
-        ship.setx(x - 10)  # Mueve la nave 10 pixeles a la izquierda
+    # Creación de la nave del usuario
+    x = ship.xcor()
+    y = ship.ycor() + 10
+    proyectile = turtle.Turtle()
+    proyectile.speed(0)
+    proyectile.shape("triangle")
+    proyectile.color("white")
+    proyectile.left(90)
+    proyectile.penup()
+    proyectile.goto(x, y)
+    avance = 0.05
+    while y < 250:
+        proyectile.forward(avance)
+        window.update()
+        y = proyectile.ycor()
+    proyectile.reset()
 
 
 if __name__ == "__main__":
@@ -48,8 +47,7 @@ if __name__ == "__main__":
     window.listen()
 
     # Asociacion del teclado con el movimiento de la nave
-    window.onkeypress(ship_right, "Right")
-    window.onkeypress(ship_left, "Left")
+    window.onkeypress(ship_weapons, "space")
 
     while True:
         window.update()
