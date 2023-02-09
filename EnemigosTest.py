@@ -4,18 +4,43 @@ import turtle
 # import random
 
 
-def alien_move_x(alien):
-    # Pasar a funcion de mov vertical
-    # y = alien.ycor()
-    x = alien.xcor()
+def alien_move(alien):
+    """
+    Función de movimiento de los enemigos.
+    Se activa constantmente durante el loop principal del juego.
+
+    alien: Objeto.turtle() correspondiente a un enemigo
+    """
+    y = alien.ycor()  # Coordenada x del alien
+    x = alien.xcor()  # Coordenada y del alien
+
+    # Determina la dirección del movimiento del alien.
+    # direction = 1: se mueve a la derecha
+    # direction = -1: se mueve a la izquierda
     direction = alien.direction
-    avance = 0.01
-    # Pasar a funcion de mov vertical
-    # ----while y > 240:
-    # ----alien.forward(avance)
-    # ----window.update()
-    # ----y = alien.ycor()
+
+    # Velocidad horizontal del alien
+    avance = 0.02
+
+    # Se asegura de que el alien este en la parte superior de la pantalla
+    while y > 240:
+        alien.forward(avance)
+        window.update()
+        y = alien.ycor()
+
+    # Da movimiento al alien una vez está en posición
     alien.setx(x + direction*avance)
+
+    # Condición de limite derecho en la pantalla
+    if alien.xcor() >= 230:
+        y = alien.ycor()
+        alien.goto(230, y-40)  # Baja al alien 40 pixeles en y
+        alien.direction = -1  # Cambia la dirección del alien
+    # Condición de limite derecho en la pantalla
+    elif alien.xcor() <= -230:
+        y = alien.ycor()
+        alien.goto(-230, y-40)  # Baja al alien 40 pixeles en y
+        alien.direction = 1  # Cambia la dirección del alien
 
 
 if __name__ == "__main__":
@@ -42,8 +67,8 @@ if __name__ == "__main__":
     alien.color("green")
     alien.right(90)
     alien.penup()
-    alien.goto(0, 250)  # Posicion inicial al centro y abajo
-    alien.direction = 1
+    alien.goto(0, 260)  # Posicion inicial al centro y abajo
+    alien.direction = 1  # Inicialmente se mueve a la derecha
 
     # Para que la ventana rastree los inputs del teclado
     window.listen()
@@ -53,14 +78,4 @@ if __name__ == "__main__":
     while True:
         window.update()
 
-        alien_move_x(alien)
-
-        # Pasar a funcion de mov vertical
-        if alien.xcor() >= 230:
-            y = alien.ycor()
-            alien.goto(230, y-40)
-            alien.direction = -1
-        elif alien.xcor() <= -230:
-            y = alien.ycor()
-            alien.goto(-230, y-40)
-            alien.direction = 1
+        alien_move(alien)
