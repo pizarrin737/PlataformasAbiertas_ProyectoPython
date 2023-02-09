@@ -13,6 +13,10 @@ def ship_weapons():
 
     # Solo dispara si el proyectil está disponible
     if avaiable is True:
+        # NOTA: El track se mueve dentro de la fución para corregir error
+        # de posición a la hora del disparo.
+        proyectile.goto(ship.xcor(),
+                        ship.ycor()+10)  # Regresa a la punta de la nave
         y = proyectile.ycor()
         avance = 0.05  # Velocidad del proyectil
         proyectile.showturtle()  # Vuelve visible el proyectil (Ha disparado)
@@ -20,7 +24,10 @@ def ship_weapons():
             proyectile.forward(avance)
             window.update()
             y = proyectile.ycor()
-        avaiable = False  # Evita otro disparo cuando ya hay un disparo activo
+            # NOTA: Recordar posición según lo que se desee
+            # 1-dentro del while: 1 disparo
+            # 2-fuera del while: multiples disparos
+            avaiable = False  # Evita otro disparo cuando ya hay uno activo
 
 
 if __name__ == "__main__":
@@ -66,7 +73,7 @@ if __name__ == "__main__":
         # Condición de disponibilidad del proyectil
         # Se activa una vez llega arriba en la pantalla
         if proyectile.ycor() >= 250:
+            # NOTA: El track del proyectil se traslado a la función
+            # ship_weapons() para corregir error de posición
             proyectile.hideturtle()  # Vuelve a ocultar el proyectil
-            proyectile.goto(ship.xcor(),
-                            ship.ycor()+10)  # Regresa a la punta de la nave
             avaiable = True  # Vuelve a estar disponible
