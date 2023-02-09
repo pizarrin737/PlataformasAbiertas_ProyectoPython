@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import turtle
-import random
+from random import randint
 
 
 def alien_move(alien):
@@ -86,6 +86,6 @@ if __name__ == "__main__":
 
         # Bases de la colisión alien-proyectil
         if alien.xcor() == 0 and alien.ycor() == 0:
-            y = random.randint(260, 560)
+            y = randint(260, 560)
             x = alien.xcor()
             alien.goto(x, y)
