@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import turtle
-# import random
+import random
 
 
 def alien_move(alien):
@@ -20,7 +20,7 @@ def alien_move(alien):
     direction = alien.direction
 
     # Velocidad horizontal del alien
-    avance = 0.02
+    avance = 0.05
 
     # Se asegura de que el alien este en la parte superior de la pantalla
     while y > 240:
@@ -79,3 +79,13 @@ if __name__ == "__main__":
         window.update()
 
         alien_move(alien)
+
+        # Situación de Game Over
+        if alien.ycor() < ship.ycor():
+            alien.goto(0, 0)  # Cambiar cuando este listo
+
+        # Bases de la colisión alien-proyectil
+        if alien.xcor() == 0 and alien.ycor() == 0:
+            y = random.randint(260, 560)
+            x = alien.xcor()
+            alien.goto(x, y)
