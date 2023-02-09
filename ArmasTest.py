@@ -5,25 +5,21 @@ import turtle
 
 def ship_weapons():
     """
-    Funcion para para que la nave se mueva a la izquierda.
-    Actualmente se activa con la flecha izquierda.
+    Función para que el proyectil sea disparado por la nave.
+    Actualmente se activa con la barra espaciadora.
     """
-    # Creación de la nave del usuario
-    x = ship.xcor()
-    y = ship.ycor() + 10
-    proyectile = turtle.Turtle()
-    proyectile.speed(0)
-    proyectile.shape("triangle")
-    proyectile.color("white")
-    proyectile.left(90)
-    proyectile.penup()
-    proyectile.goto(x, y)
-    avance = 0.05
-    while y < 250:
-        proyectile.forward(avance)
-        window.update()
+    # Variable GLOBAL necesaria para trackear el estado del proyectil
+    global avaiable
+
+    # Solo dispara si el proyectil está disponible
+    if avaiable is True:
         y = proyectile.ycor()
-    proyectile.reset()
+        avance = 0.05  # Velocidad del proyectil
+        while y <= 250:  # Avanza hasta llegar arriba en la pantalla
+            proyectile.forward(avance)
+            window.update()
+            y = proyectile.ycor()
+        avaiable = False  # Evita otro disparo cuando ya hay un disparo activo
 
 
 if __name__ == "__main__":
@@ -43,6 +39,18 @@ if __name__ == "__main__":
     ship.penup()
     ship.goto(0, -240)  # Posicion inicial al centro y abajo
 
+    # Creación del proyectil que dispara el usuario
+    # Fue necesario sacarlo de la función ya que sino el loop principal crashea
+    proyectile = turtle.Turtle()
+    proyectile.speed(0)
+    proyectile.shape("circle")
+    proyectile.color("red")
+    proyectile.left(90)
+    proyectile.penup()
+    proyectile.goto(ship.xcor(),
+                    ship.ycor()+10)  # Ubicado en la punta de la nave
+    avaiable = True  # Disponibilidad del proyectil. Disponible al inicio
+
     # Para que la ventana rastree los inputs del teclado
     window.listen()
 
@@ -51,3 +59,10 @@ if __name__ == "__main__":
 
     while True:
         window.update()
+
+        # Condición de disponibilidad del proyectil
+        # Se activa una vez llega arriba en la pantalla
+        if proyectile.ycor() >= 250:
+            proyectile.goto(ship.xcor(),
+                            ship.ycor()+10)  # Regresa a la punta de la nave
+            avaiable = True  # Vuelve a estar disponible
