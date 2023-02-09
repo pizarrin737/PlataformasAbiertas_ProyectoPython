@@ -15,6 +15,7 @@ def ship_weapons():
     if avaiable is True:
         y = proyectile.ycor()
         avance = 0.05  # Velocidad del proyectil
+        proyectile.showturtle()  # Vuelve visible el proyectil (Ha disparado)
         while y <= 250:  # Avanza hasta llegar arriba en la pantalla
             proyectile.forward(avance)
             window.update()
@@ -42,9 +43,11 @@ if __name__ == "__main__":
     # Creación del proyectil que dispara el usuario
     # Fue necesario sacarlo de la función ya que sino el loop principal crashea
     proyectile = turtle.Turtle()
+    proyectile.hideturtle()  # Inicialmente oculto (No ha disparado)
     proyectile.speed(0)
     proyectile.shape("circle")
     proyectile.color("red")
+    proyectile.turtlesize(0.14, 0.52)
     proyectile.left(90)
     proyectile.penup()
     proyectile.goto(ship.xcor(),
@@ -63,6 +66,7 @@ if __name__ == "__main__":
         # Condición de disponibilidad del proyectil
         # Se activa una vez llega arriba en la pantalla
         if proyectile.ycor() >= 250:
+            proyectile.hideturtle()  # Vuelve a ocultar el proyectil
             proyectile.goto(ship.xcor(),
                             ship.ycor()+10)  # Regresa a la punta de la nave
             avaiable = True  # Vuelve a estar disponible
