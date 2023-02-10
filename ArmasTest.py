@@ -3,38 +3,54 @@
 import turtle
 
 
-def ship_weapons():
+def weapon_in_wait():
     """
-    Función para que el proyectil sea disparado por la nave.
-    Actualmente se activa con la barra espaciadora.
+    Función empleada para iniciar la acción de disparo.
+    Si el proyectil está en espera, cuando el usuario dispara,
+    la función mueve el proyecil a la punta de la nave y activa
+    la señal de disparo.
+
+    Actualmente se activa con la barra espaciadora si avaiable == True.
     """
     # Variable GLOBAL necesaria para trackear el estado del proyectil
     global avaiable
 
     # Solo dispara si el proyectil está disponible
     if avaiable is True:
-        # NOTA: El track se mueve dentro de la fución para corregir error
-        # de posición a la hora del disparo.
-        proyectile.goto(ship.xcor(),
-                        ship.ycor()+10)  # Regresa a la punta de la nave
-        y = proyectile.ycor()
+
+        # Regresa el proyectil a la punta de la nave
+        proyectile.goto(ship.xcor(), ship.ycor()+10)
+
+        # Ahora el proyectil no está disponible (Disparo activo)
+        avaiable = False
+
+        # NOTA: si avaiable == False, se activa weapon_in_use()
+
+
+def weapon_in_use():
+    """
+    Función empleada para animar la acción de disparo.
+    Si el proyectil está en uso, la función recibe la señal de
+    disparo y mueve el proyectil hacia adelante. Una vez el proyectil
+    llega hasta arriba en la pantalla lo mueve por debajo del espacio
+    de juego para evitar colisiones indeseadas.
+
+    Se activa solo si avaiable == False (proyectil disparado)
+    """
+    # Variable GLOBAL necesaria para trackear el estado del proyectil
+    global avaiable
+
+    # Inicia la animación de disparo si el proyectil está en uso
+    if avaiable is False:
         avance = 0.05  # Velocidad del proyectil
-        proyectile.showturtle()  # Vuelve visible el proyectil (Ha disparado)
-        while y <= 250:  # Avanza hasta llegar arriba en la pantalla
-            proyectile.forward(avance)
-            window.update()
-            y = proyectile.ycor()
-            # NOTA: Recordar posición según lo que se desee
-            # 1-dentro del while: 1 disparo
-            # 2-fuera del while: multiples disparos
-            avaiable = False  # Evita otro disparo cuando ya hay uno activo
-        # Condición de disponibilidad del proyectil
-        # Se activa una vez llega arriba en la pantalla
+        proyectile.showturtle()  # Vuelve visible el proyectil
+        proyectile.forward(avance)
+
+        # Se activa cuando el proyectil está arriba en la pantalla
         if proyectile.ycor() >= 250:
-            # NOTA: El track del proyectil se traslado a la función
-            # ship_weapons() para corregir error de posición
             proyectile.hideturtle()  # Vuelve a ocultar el proyectil
             avaiable = True  # Vuelve a estar disponible
+            proyectile.goto(0, -300)  # Mueve el proyectil abajo
 
 
 if __name__ == "__main__":
@@ -70,9 +86,13 @@ if __name__ == "__main__":
 
     # Para que la ventana rastree los inputs del teclado
     window.listen()
-    window.onkeypress(ship_weapons, "space")
+    window.onkeypress(weapon_in_wait, "space")
 
     # Asociacion del teclado con el movimiento de la nave
 
     while True:
+        # Refresca la ventana
         window.update()
+
+        # Anima el proyectil
+        weapon_in_use()
