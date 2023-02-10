@@ -42,7 +42,7 @@ def weapon_in_use():
 
     # Inicia la animación de disparo si el proyectil está en uso
     if avaiable is False:
-        avance = 0.05  # Velocidad del proyectil
+        avance = 0.1  # Velocidad del proyectil
         proyectile.showturtle()  # Vuelve visible el proyectil
         proyectile.forward(avance)
 

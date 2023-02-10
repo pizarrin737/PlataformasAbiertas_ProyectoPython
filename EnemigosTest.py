@@ -20,19 +20,18 @@ def alien_move(alien):
     direction = alien.direction
 
     # Velocidad horizontal del alien
-    avance = 0.05
-
-    # Se asegura de que el alien este en la parte superior de la pantalla
-    while y > 240:
-        alien.forward(avance)
-        window.update()
-        y = alien.ycor()
+    avance = 0.01
 
     # Da movimiento al alien una vez está en posición
     alien.setx(x + direction*avance)
 
+    # Se asegura de que el alien este en la parte superior de la pantalla
+    if y > 240:
+        alien.forward(avance)
+        window.update()
+        y = alien.ycor()
     # Condición de limite derecho en la pantalla
-    if alien.xcor() >= 230:
+    elif alien.xcor() >= 230:
         y = alien.ycor()
         alien.goto(230, y-40)  # Baja al alien 40 pixeles en y
         alien.direction = -1  # Cambia la dirección del alien
