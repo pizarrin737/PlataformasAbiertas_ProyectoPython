@@ -6,7 +6,6 @@
 
 # Imports requeridos
 import platform
-import os
 import turtle
 
 # Función
