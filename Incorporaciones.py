@@ -118,6 +118,40 @@ def alien_move(alien):
         alien.direction = 1  # Cambia la dirección del alien
 
 
+class explosion(turtle.Turtle):
+    """
+    se declara una clase con la cual se crea un objeto tipo turtle
+    usando el metodo inicializador, el cual va a tener las caracteristicas
+    especificadas, como la forma, que se le da usando el contenedor visual
+    .frame en donde se almacena una serie de imagenes que generan el efecto
+    visual de explosion
+    """
+
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.penup()
+        self.shape("1.gif")
+        self.frame1 = 0
+        self.frame = [
+            "1.gif", "2.gif", "3.gif", "4.gif", "5.gif",
+            "6.gif", "7.gif", "8.gif", "9.gif", "10.gif", "11.gif", "12.gif",
+            "13.gif", "14.gif", "14.gif", "15.gif", "16.gif", "17.gif",
+            "18.gif", "19.gif", "20.gif", "21.gif", "22.gif", "23.gif",
+            "24.gif", "25.gif"
+            ]
+
+    """
+    funcion se que recorre el frame con un ciclo y ademas,
+    muestra la imagens a una velocidad especificada con el metodo
+    ontimer
+    """
+    def animacion(self):
+        if self.frame1 < len(self.frame):
+            self.frame1 += 1
+        self.shape(self.frame[self.frame1])
+        window.ontimer(self.animacion, 18)
+
+
 def colisiones(alien, proyectile):
     """
     Función de rastreo de colisiones enemigo-proyectil.
@@ -137,7 +171,10 @@ def colisiones(alien, proyectile):
             and
             proyectile.ycor() >= alien.ycor()-10  # Limite inferior
             and proyectile.ycor() <= alien.ycor()+10):  # Limite superior
-
+        explo = explosion()  # se llama la clase para crear la explosion
+        explo.goto(alien.xcor(), alien.ycor())  # coloca la explosio en el
+        # mismo lugar donde se intersecan el proyectil y el alien
+        explo.animacion()  # llama la animacion visual de explosion
         # Cuando un enemigo es golpeado este se mueve arriba de la ventana
         x = randint(-230, 230)  # Nueva coordenada x (dentro de ventana)
         alien.goto(x, 260)  # Nueva posición del enemigo
@@ -179,6 +216,34 @@ if __name__ == "__main__":
     ship.left(90)
     ship.penup()
     ship.goto(0, -240)  # Posicion inicial al centro y abajo
+
+    # se importan todas las imagenes que se
+    # usan para crear la explosion
+    window.addshape("1.gif")
+    window.addshape("2.gif")
+    window.addshape("3.gif")
+    window.addshape("4.gif")
+    window.addshape("5.gif")
+    window.addshape("6.gif")
+    window.addshape("7.gif")
+    window.addshape("8.gif")
+    window.addshape("9.gif")
+    window.addshape("10.gif")
+    window.addshape("11.gif")
+    window.addshape("12.gif")
+    window.addshape("13.gif")
+    window.addshape("14.gif")
+    window.addshape("15.gif")
+    window.addshape("16.gif")
+    window.addshape("17.gif")
+    window.addshape("18.gif")
+    window.addshape("19.gif")
+    window.addshape("20.gif")
+    window.addshape("21.gif")
+    window.addshape("22.gif")
+    window.addshape("23.gif")
+    window.addshape("24.gif")
+    window.addshape("25.gif")
 
     # Creación del proyectil que dispara el usuario
     # Fue necesario sacarlo de la función ya que sino el loop principal crashea
