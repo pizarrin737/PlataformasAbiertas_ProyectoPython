@@ -25,3 +25,4 @@ def sounds(sound_file, time=0):  # time = 0 inmediatos
 # sounds("BULLET.wav") para bala al ser disparada
 # sounds("BACKGROUND.wav", 16) para sonido de fondo al iniciar juego
 # Importante que archivos de sonido estén en la misma carpeta
+# TODOS LOS SONIDOS SON DE LIBRE USO. https://orangefreesounds.com/
