@@ -24,6 +24,7 @@ puntaje.clear()
 puntaje.write("Score: {}        HighScore: {}".format(score, high_score),
               align="center", font=("Courier",  24, "normal"))
 
+################################################################################
 score = 0  # Colocar en la parte donde el usuario pierde (GameOver)
 puntaje.write("Score: {}        HighScore: {}".format(score, high_score),
               align="center", font=("Courier",  24, "normal"))
