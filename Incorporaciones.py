@@ -4,6 +4,7 @@ import turtle
 from random import randint
 import os
 import platform
+import time
 
 
 class explosion(turtle.Turtle):
@@ -96,7 +97,7 @@ def weapon_in_wait():
     if avaiable is True:
 
         # Sonido del proyectil
-        sounds("PIUM.wav")
+        sounds("PIUMcut.wav")
 
         # Regresa el proyectil a la punta de la nave
         proyectile.goto(ship.xcor(), ship.ycor()+10)
@@ -304,7 +305,7 @@ if __name__ == "__main__":
     # Creación de la ventana del juego
     window = turtle.Screen()
     window.title("Alien Invaders")
-    window.setup(width=500, height=500)  # Unidades en pixeles
+    window.setup(width=800, height=800)  # Unidades en pixeles
     window.bgcolor("white")
     window.tracer(0)
 
@@ -332,6 +333,21 @@ if __name__ == "__main__":
     pen.penup()  # Escribe opción para salir del juego
     pen.goto(14, -42)
     pen.write("EXIT", font=("Courier",  24, "normal"))
+
+    # Delimitación del espacio de juego
+    border = turtle.Turtle()
+    border.speed(0)
+    border.color("white")
+    border.penup()
+    border.hideturtle()
+    border.goto(-250, 270)
+    border.pensize(3)
+    border.pendown()
+    for i in range(2):
+        border.forward(500)
+        border.right(90)
+        border.forward(520)
+        border.right(90)
 
     # Creación de la nave del usuario
     ship = turtle.Turtle()
@@ -462,6 +478,14 @@ if __name__ == "__main__":
             align="center", font=("Courier",  24, "normal")
             )
 
+    # Titulo de GameOver
+    final_screen = turtle.Turtle()
+    final_screen.speed(0)
+    final_screen.color("white")
+    final_screen.penup()
+    final_screen.hideturtle()
+    final_screen.goto(0, 150)
+
     # Variable que indica si el jugador perdio o no
     GameOver = False  # El jugador no inicia perdiendo
 
@@ -478,8 +502,15 @@ if __name__ == "__main__":
         # Se activa si el usuario decide iniciar una partida
         if start is True:
 
+            # Se usa para agregar sonido de fondo
+            # La canción solo suena un vez y no se repite
+            """
+            sounds("BACKGROUND.2.wav", 145)
+            """
+
             # Loop principal de juego
             while GameOver is False:
+
                 # Refresca la ventana
                 window.update()
 
@@ -527,6 +558,14 @@ if __name__ == "__main__":
 
             # esconde a la nave del jugador
             ship.hideturtle()
+
+            final_screen.write("GAME OVER", align="center",
+                               font=("Courier",  40, "normal")
+                               )
+
+            window.update()
+            time.sleep(3)
+            final_screen.clear()
 
             # Cambia el color de la ventana
             window.bgcolor("white")
