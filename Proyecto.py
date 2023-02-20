@@ -155,14 +155,8 @@ def alien_move(alien):
     # Da movimiento al alien una vez está en posición
     alien.setx(x + direction*avance)
 
-    # Se asegura de que el alien este en la parte superior de la pantalla
-    if y > 240:
-        alien.forward(avance)
-        window.update()
-        y = alien.ycor()
-
     # Condición de limite derecho en la pantalla
-    elif alien.xcor() >= 230:
+    if alien.xcor() >= 230:
         y = alien.ycor()
         alien.goto(230, y-40)  # Baja al alien 40 pixeles en y
         alien.direction = -1  # Cambia la dirección del alien
@@ -262,7 +256,7 @@ def click(x, y):
     global start
 
     # Condición para iniciar partida
-    if x > 0 and x < 220 and y > 0 and y < 60:
+    if x > -110 and x < 110 and y > 0 and y < 60:
         # Cambia el color de la pantalla
         window.bgcolor("black")
 
@@ -280,7 +274,7 @@ def click(x, y):
         # Condición de inicio de partida
         start = True
     # Condición para cerrar el programa
-    elif x > 0 and x < 220 and y > -60 and y < 0:
+    elif x > -110 and x < 110 and y > -60 and y < 0:
         start = False
     else:
         click(x, y)  # Hace que no pase nada en caso de click fuera de marcos
@@ -296,7 +290,7 @@ def NewGamePlus(alien):
     alien.hideturtle()  # Esconde al enemigo
     alien.goto(x, 260)  # Devulve al enemigo arriba en la pantalla
     alien.speed(0)
-    alien.shape("triangle")
+    alien.shape("turtle")
     alien.color("green")
 
 
@@ -304,35 +298,18 @@ if __name__ == "__main__":
 
     # Creación de la ventana del juego
     window = turtle.Screen()
-    window.title("Alien Invaders")
+    window.title("Turtle Invasion")
     window.setup(width=800, height=800)  # Unidades en pixeles
-    window.bgcolor("white")
+    window.bgcolor("black")
     window.tracer(0)
 
     # Se usa para crear los botones del menu
     pen = turtle.Turtle()
     pen.hideturtle()
-
-    # Crea marco para las opciones del menu
-    for i in range(2):
-        pen.forward(220)
-        pen.left(90)
-        pen.forward(60)
-        pen.left(90)
-    pen.goto(0, -60)
-    for i in range(2):
-        pen.forward(220)
-        pen.left(90)
-        pen.forward(60)
-        pen.left(90)
-
-    pen.penup()  # Escribe opción para iniciar juego
-    pen.goto(14, 12)
-    pen.write("START GAME", font=("Courier",  24, "normal"))
-
-    pen.penup()  # Escribe opción para salir del juego
-    pen.goto(14, -42)
-    pen.write("EXIT", font=("Courier",  24, "normal"))
+    pen.penup()
+    pen.color("white")
+    pen.pensize(2)
+    pen.goto(-110, 60)
 
     # Delimitación del espacio de juego
     border = turtle.Turtle()
@@ -354,7 +331,7 @@ if __name__ == "__main__":
     ship.hideturtle()
     ship.speed(0)
     ship.shape("arrow")
-    ship.color("white")
+    ship.color("yellow")
     ship.left(90)
     ship.penup()
     ship.goto(0, -240)  # Posicion inicial al centro y abajo
@@ -481,7 +458,7 @@ if __name__ == "__main__":
     # Titulo de GameOver
     final_screen = turtle.Turtle()
     final_screen.speed(0)
-    final_screen.color("white")
+    final_screen.color("red")
     final_screen.penup()
     final_screen.hideturtle()
     final_screen.goto(0, 150)
@@ -494,10 +471,35 @@ if __name__ == "__main__":
 
     # Loop principal del programa
     while True:
+        # Crea marco para las opciones del menu
+        pen.pendown()
+        for i in range(2):
+            pen.forward(220)
+            pen.right(90)
+            pen.forward(60)
+            pen.right(90)
+        pen.goto(-110, 0)
+        for i in range(2):
+            pen.forward(220)
+            pen.right(90)
+            pen.forward(60)
+            pen.right(90)
+        pen.penup()
+
+        # Escribe opción para iniciar juego
+        pen.goto(-95, 10)
+        pen.write("START GAME", font=("Courier",  24, "normal"))
+
+        # Escribe opción para salir del juego
+        pen.goto(-35, -50)
+        pen.write("EXIT", font=("Courier",  24, "normal"))
+        pen.goto(-110, 60)
 
         # Permite al usuario decidir que hacer desde el menu
         while start is None:
             window.update()
+
+        pen.clear()
 
         # Se activa si el usuario decide iniciar una partida
         if start is True:
@@ -564,11 +566,10 @@ if __name__ == "__main__":
                                )
 
             window.update()
-            time.sleep(3)
+            time.sleep(2)
             final_screen.clear()
 
             # Cambia el color de la ventana
-            window.bgcolor("white")
 
             # Reseteo de las variables
             start = None  # Cambia el estado del programa a indefinido
