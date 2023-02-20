@@ -1,4 +1,18 @@
 #!/usr/bin/python3
+""""
+Autores:
+Carlos Naranjo Arias (B44870)
+Christopher David Vega Cedeño (C18390)
+Jose Miguel Pizarro Viales (B86079)
+
+En el presente archivo se incluye el código empleado para cumplir con las
+asignaciones dadas en proyecto de Python. De esta forma se elaboro un
+juego similar a alien invaders por medio Python.
+
+El juego incluye un menu, un espacio de juego, un avatar para el usuario,
+multiples enemigos, una mecanica de disparo, efectos visuales y de sonido,
+y una pantalla de Game Over.
+"""
 
 import turtle
 from random import randint
@@ -44,10 +58,9 @@ class explosion(turtle.Turtle):
 
 def sounds(sound_file, time=0):  # time = 0 inmediatos
     # sounds("BOOM.wav") para colisión bala-alien y alien-nave
-    # sounds("BULLET.wav") para bala al ser disparada
-    # sounds("BACKGROUND.wav", 16) para sonido de fondo al iniciar juego
+    # sounds("PIUMcut.wav") para bala al ser disparada
+    # sounds("BACKGROUND.2.wav", 16) para sonido de fondo al iniciar juego
     # Importante que archivos de sonido estén en la misma carpeta
-    # TODOS LOS SONIDOS SON DE LIBRE USO. https://orangefreesounds.com/
     if platform.system() == "Linux":
         os.system("aplay -q {}&".format(sound_file))
     # & para no pausar el juego al reproducirse sonido
@@ -123,7 +136,7 @@ def weapon_in_use():
 
     # Inicia la animación de disparo si el proyectil está en uso
     if avaiable is False:
-        avance = 0.2  # Velocidad del proyectil
+        avance = 0.8  # Velocidad del proyectil
         proyectile.showturtle()  # Vuelve visible el proyectil
         proyectile.forward(avance)
 
@@ -150,7 +163,7 @@ def alien_move(alien):
     direction = alien.direction
 
     # Velocidad horizontal del alien
-    avance = 0.08
+    avance = 0.45
 
     # Da movimiento al alien una vez está en posición
     alien.setx(x + direction*avance)
@@ -232,7 +245,7 @@ def Game_Over(alien):
     global GameOver, score, high_score
 
     # Situación de Game Over
-    if alien.ycor() < ship.ycor():
+    if alien.ycor() <= ship.ycor()+20:
         GameOver = True
         # Resetea el score para la proxima partida
         score = 0
@@ -295,6 +308,14 @@ def NewGamePlus(alien):
 
 
 if __name__ == "__main__":
+    """
+    Archivo principal del juego Turtle Invsion.
+
+    Controles:
+    menu: click derecho del mouse.
+    movimiento: flechas izquiera y derecha
+    disparo: barra espaciadora
+    """
 
     # Creación de la ventana del juego
     window = turtle.Screen()
@@ -425,7 +446,7 @@ if __name__ == "__main__":
     alien8 = turtle.Turtle()
     alien8.direction = -1  # Inicialmente se mueve a la izquierda
     alien8.right(90)
-    NewGamePlus(alien8)  # Posicion inicial al centro y abajo
+    NewGamePlus(alien8)
 
     # Para que la ventana rastree los inputs del teclado
     window.listen()
@@ -461,7 +482,6 @@ if __name__ == "__main__":
     final_screen.color("red")
     final_screen.penup()
     final_screen.hideturtle()
-    final_screen.goto(0, 150)
 
     # Variable que indica si el jugador perdio o no
     GameOver = False  # El jugador no inicia perdiendo
@@ -471,6 +491,7 @@ if __name__ == "__main__":
 
     # Loop principal del programa
     while True:
+
         # Crea marco para las opciones del menu
         pen.pendown()
         for i in range(2):
@@ -509,6 +530,13 @@ if __name__ == "__main__":
             """
             sounds("BACKGROUND.2.wav", 145)
             """
+
+            # Delimita lo más que se pueden acrcar los enemigos
+            final_screen.goto(-247, -220)
+            final_screen.pendown()
+            final_screen.forward(494)
+            final_screen.penup()
+            final_screen.goto(0, 150)
 
             # Loop principal de juego
             while GameOver is False:
@@ -549,6 +577,15 @@ if __name__ == "__main__":
                 Game_Over(alien7)
                 Game_Over(alien8)
 
+            # Muestra la pantalla de Game Over
+            final_screen.write("GAME OVER", align="center",
+                               font=("Courier",  40, "normal")
+                               )
+
+            window.update()
+            time.sleep(2)  # Delay de 2 s
+            final_screen.clear()
+
             NewGamePlus(alien1)
             NewGamePlus(alien2)
             NewGamePlus(alien3)
@@ -558,18 +595,8 @@ if __name__ == "__main__":
             NewGamePlus(alien7)
             NewGamePlus(alien8)
 
-            # esconde a la nave del jugador
+            # Esconde a la nave del jugador
             ship.hideturtle()
-
-            final_screen.write("GAME OVER", align="center",
-                               font=("Courier",  40, "normal")
-                               )
-
-            window.update()
-            time.sleep(2)
-            final_screen.clear()
-
-            # Cambia el color de la ventana
 
             # Reseteo de las variables
             start = None  # Cambia el estado del programa a indefinido
